@@ -178,7 +178,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 })
                 
                 output$plotgen<- renderPlot({
-                        ddata$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
+                        data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
                                 cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         # preprocessing of gen data -> ml tree
