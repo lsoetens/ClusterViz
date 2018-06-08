@@ -1,0 +1,65 @@
+---
+title: "README"
+author: "Loes Soetens"
+date: "8 June 2018"
+output: html_document
+---
+
+
+*ClusterViz*: An R package containing visualization tools for assessing plausibility of possible transmission clusters
+=================================================
+*ContactViz* implements visualization tools for the exploration and analysis of possible transmission clusters in order to help outbreak investigators to assess the plausiblity of these identified clusters (for more information see, - link to be added-). In addition, the package contains an clustering algoritm using information from cases (time of symptom onset and geographic location) as well as information on the pathogen (genetic sequence). More details on this clustering algorithm can be found in Ypma et al (PLOS one, 2013).  
+
+
+Installing *ClusterViz*
+-------------
+To install the development version from github:
+```{r install, eval=FALSE}
+library(devtools)
+install_github("lsoetens/ClusterViz")
+```
+
+
+Then, to load the package, use:
+```{r load}
+library(ClusterViz)
+```
+
+### The data format
+
+The package contains an example dataset, which is inferred from the mumps surveillance data in the Netherlands. Data locations, dates and sequences are slightly changed as to not harm the privacy of the cases (for example, for the case location we randomly chose another location within 10 km of the original location). 
+
+The data can be accessed through:
+```{r run, eval=TRUE}
+data(ClusterData)
+head(ClusterData)
+```
+
+The data should contain the following columns: the id of the case, a time stamp of the case (for example date of symptom onset), the latitude and longitude of the case location, and the nucleotide information of the pathogen per site per column.
+
+
+### The clustering algorithm
+
+This dataset can then serve as an input for the time-place-type clustering algorithm, as described by Ypma et al (2013), using the cluster.algo() function.
+```{r run, eval=TRUE}
+res<- cluster.algo(data = ClusterData, time.col = 2, x.col = 3, y.col = 4, gen.col= 5:194)
+str(res)
+```
+The result of this algorithm is a list (res) containing a list with clusters, the dissimilarity heights of the clusters and their pvalues. 
+
+### Visualization of the cluster output
+
+In order to assess the plausibility of representing transmission clusters of the identified clusters by the algorithm, we developed an R shiny App to explore the cluster results. This app can be loaded with the cluster_app() function.
+```{r run, eval=FALSE}
+library(RColorBrewer)
+cols <- c("grey", brewer.pal(n= 9, "Set1"))
+
+cluster_app(data= ClusterData, cluster.list = res$clusters, cluster.pvalue = res$p.values, cluster.height = res$tree.heights, id.col = 1, time.col = 2, x.col = 3, y.col = 4, gen.col = 5:194, cols = cols)
+```
+
+![plot](https://github.com/lsoetens/ClusterViz/Figs/shiny_app_screenshot.PNG)
+
+
+This plot is the main output. It contains...
+
+

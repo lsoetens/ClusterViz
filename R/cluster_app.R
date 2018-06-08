@@ -60,6 +60,8 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 # })
                 
                 # time absolute distance matrix (D)
+                data$time2<- as.Date(data[, time.col], origin = "1970-01-01")
+                time.col<- grep("time2", colnames(data))
                 D_time<- dist(data[, time.col], method = "manhattan", diag = TRUE, upper = TRUE)
                 D_time<- as.matrix(D_time)
                 
