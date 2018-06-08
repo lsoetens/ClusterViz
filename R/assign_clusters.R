@@ -1,3 +1,15 @@
+#' Assign.clusters
+#'
+#' @param data 
+#' @param cluster.list 
+#' @param cluster.pvalues 
+#' @param cluster.height 
+#' @param p.limit 
+#' @param max.size 
+#' @param max.tree.height 
+#'
+#' @return Return a data frame with an additional column to the data containing the cluster numbers
+#' @export
 assign.clusters <- function(data, cluster.list, cluster.pvalues, cluster.height, p.limit = 0.001, max.size = 1, max.tree.height = max(cluster.height)) {
         clustersizes <- unlist(lapply(cluster.list, length))
         clusters_p <- cluster.list[which(clustersizes < max.size*nrow(data) & cluster.pvalues < p.limit & cluster.height < max.tree.height)]

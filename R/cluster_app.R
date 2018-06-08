@@ -1,4 +1,32 @@
 
+#' Cluster_app function
+#'
+#' @param data 
+#' @param cluster.list 
+#' @param cluster.pvalue 
+#' @param cluster.height 
+#' @param id.col 
+#' @param time.col 
+#' @param x.col 
+#' @param y.col 
+#' @param gen.col 
+#' @param cols 
+#'
+#' @import shiny
+#' @import ggplot2
+#' @import RColorBrewer
+#' @import DT
+#' @import ape
+#' @import phangorn
+#' @import ggtree
+#' @import igraph
+#' @import ggraph
+#' @import scales
+#' @import leaflet
+#' @import plotly
+#'
+#' @return An shiny application visualizing possilbe transmission clusters
+#' @export 
 cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.col, time.col, x.col, y.col, gen.col, cols){
         
         
@@ -21,7 +49,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 output$table <- renderDataTable({
                         
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         x<- as.data.frame(table(data$clusters))
                         names(x)<- c("Cluster", "Clustersize")
@@ -73,7 +101,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 output$plot2 <- renderPlot({
                         
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         clust_tree <- hclust(as.dist(d_combi), method = "single")
                         dend <- as.dendrogram(clust_tree)
@@ -117,7 +145,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 
                 output$plottime<- renderPlot({
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         p<- ggplot(data, aes(x = data[,time.col], fill = as.factor(clusters)))+
                                 geom_histogram(binwidth = 30) +
@@ -134,7 +162,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 
                 output$plot3 <- renderLeaflet({
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         map_plot<- function(data) {
                                 leaflet(data = data) %>% addTiles() %>%
@@ -151,7 +179,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 
                 output$plotgen<- renderPlot({
                         ddata$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         # preprocessing of gen data -> ml tree
                         gen.dat<- as.matrix(data[,gen.col])
@@ -175,7 +203,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 output$plot4 <- renderPlot({
                         
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         df_dist <- data.frame(d= numeric(0), dim= character(0), cluster= numeric(0) )
                         for (i in sort(unique(data[,"clusters"]))) {
@@ -206,7 +234,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 output$plot5 <- renderPlotly({
                         
                         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                treeheights = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
                         
                         df_corr <- data.frame(d_time= numeric(0), d_geo= numeric(0), d_gen= numeric(0), d_combi= numeric(0), cluster= numeric(0) )
                         for (i in sort(unique(data[,"clusters"]))) {

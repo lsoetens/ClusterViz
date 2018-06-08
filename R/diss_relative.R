@@ -1,7 +1,9 @@
-############# Dissimilarity calculation ###########################
-
-# calculate dissimilarities based on appendix S1 (Ypma et al.)
-
+#' diss.relative
+#'
+#' @param D 
+#'
+#' @return estimates a relative distance matrix based on appendix S1 (Ypma et al. 2013)
+#' @export
 diss.relative <- function(D){
         d <- matrix(0, nrow = nrow(D), ncol = ncol(D))
         for(i in 1:(nrow(D)-1)){
