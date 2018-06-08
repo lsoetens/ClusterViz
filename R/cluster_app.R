@@ -149,7 +149,7 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                         
                         p<- ggplot(data, aes(x = data[,time.col], fill = as.factor(clusters)))+
                                 geom_histogram(binwidth = 30) +
-                                scale_fill_manual(values = colors, name= " ")+
+                                scale_fill_manual(values = cols, name= " ")+
                                 scale_y_continuous(breaks= pretty_breaks())+
                                 xlab("Date onset disease")+
                                 ylab("Number of cases")+
