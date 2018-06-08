@@ -15,4 +15,4 @@
 #' @name example
 #' @usage data(example)
 #' @format A data frame with 112 rows and 194 variables
-NULL
+"example"
