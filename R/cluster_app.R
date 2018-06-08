@@ -36,8 +36,8 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
                 headerPanel('Visualization of possible transmission clusters in time, geospatial and genetic space'),
                 fluidRow(
                         column(2, numericInput("plimit", label = h4("P-value limit"), value = 0.05), numericInput("size", label = h4("Clustersize limit of total sample"), value = 100),
-                                numericInput("treelimit", label = h4("Treeheight limit (proportion of max height"), value = 1), submitButton('Update'),
-                                h4("Cluster information"), tableOutput('table')),
+                                numericInput("treelimit", label = h4("Treeheight limit (proportion of max height"), value = 1), submitButton('Update')),
+                                #h4("Cluster information"), tableOutput('table')),
                         column(3, h4("Tree heights vs p-values for all clusters"), plotOutput('plot1', height = 300), h4("Hierarchical clustering tree based on combined pairwise distances"), plotOutput('plot2', height = 300), h4("Epidemic curve"), plotOutput('plottime', height = 200)),
                         column(3, h4("Map with clusters"), leafletOutput("plot3", height= 400), h4("ML phylogenetic tree (arbitrarily rooted)"), plotOutput('plotgen', height= 400)),
                         column(3, h4("Pairwise inter-patient distance per cluster and dimension"), plotOutput('plot4', height = 400), h4("Intra-cluster correlation between dimensions"), plotlyOutput('plot5', height = 400))
@@ -46,18 +46,18 @@ cluster_app<- function(data, cluster.list, cluster.pvalue, cluster.height, id.co
         # Define server logic 
         server <- function(input, output) {
                 
-                output$table <- renderTable({
-                        
-                        data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
-                                cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
-                        
-                        x<- as.data.frame(table(data$clusters))
-                        names(x)<- c("Cluster", "Clustersize")
-                        x<- datatable(x, rownames = FALSE) %>% formatStyle(
-                                'Cluster',
-                                backgroundColor = styleEqual(c(sort(unique(data$clusters))), c(cols[1:length(unique(data$clusters))])))
-                        x
-                })
+                # output$table <- renderTable({
+                #         
+                #         data$clusters <- assign.clusters(data = data, cluster.list = cluster.list, cluster.pvalue = cluster.pvalue, 
+                #                 cluster.height = cluster.height, p.limit = input$plimit, max.size = input$size, max.tree.height = (input$treelimit * max(cluster.height)))
+                #         
+                #         x<- as.data.frame(table(data$clusters))
+                #         names(x)<- c("Cluster", "Clustersize")
+                #         x<- datatable(x, rownames = FALSE) %>% formatStyle(
+                #                 'Cluster',
+                #                 backgroundColor = styleEqual(c(sort(unique(data$clusters))), c(cols[1:length(unique(data$clusters))])))
+                #         x
+                # })
                 
                 # time absolute distance matrix (D)
                 D_time<- dist(data[, time.col], method = "manhattan", diag = TRUE, upper = TRUE)
