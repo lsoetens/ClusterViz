@@ -21,7 +21,7 @@ install_github("lsoetens/ClusterViz")
 
 
 Then, to load the package, use:
-```{r load}
+```{r load, eval=FALSE}
 library(ClusterViz)
 ```
 
@@ -30,9 +30,9 @@ library(ClusterViz)
 The package contains an example dataset, which is inferred from the mumps surveillance data in the Netherlands. Data locations, dates and sequences are slightly changed as to not harm the privacy of the cases (for example, for the case location we randomly chose another location within 10 km of the original location). 
 
 The data can be accessed through:
-```{r run, eval=TRUE}
+```{r echo=TRUE}
 data(ClusterData)
-head(ClusterData)
+head(ClusterData[,1:10])
 ```
 
 The data should contain the following columns: the id of the case, a time stamp of the case (for example date of symptom onset), the latitude and longitude of the case location, and the nucleotide information of the pathogen per site per column.
@@ -41,11 +41,13 @@ The data should contain the following columns: the id of the case, a time stamp 
 ### The clustering algorithm
 
 This dataset can then serve as an input for the time-place-type clustering algorithm, as described by Ypma et al (2013), using the cluster.algo() function.
-```{r run, eval=TRUE}
+```{r eval= FALSE}
 res<- cluster.algo(data = ClusterData, time.col = 2, x.col = 3, y.col = 4, gen.col= 5:194)
-str(res)
 ```
 The result of this algorithm is a list (res) containing a list with clusters, the dissimilarity heights of the clusters and their pvalues. 
+```{r eval=FALSE}
+str(res)
+```
 
 ### Visualization of the cluster output
 
