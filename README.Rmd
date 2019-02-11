@@ -60,7 +60,8 @@ cluster_app(data= ClusterData, cluster.list = res$clusters, cluster.pvalue = res
   cluster.height = res$tree.heights, id.col = 1, time.col = 2, x.col = 3, y.col = 4, gen.col = 5:194, cols = cols)
 ```
 
-![plot](https://github.com/lsoetens/ClusterViz/blob/master/Figs/shiny_app_screenshot.PNG)
+![plot](https://github.com/lsoetens/ClusterViz/Figs/shiny_app_screenshot.PNG)
+
 
 
 This plot is the main output. On the left you can find several settings (pvalue cut-off, max. clustersize, max. cluster height) which can be adjusted. Then in the main panel, we can find several visual outputs: a scatterplot displaying the relation between the p-values and the cluster heights of the clusters, a clustering tree displaying the nesting of the clusters, an epicurve with a mapping of the significant clusters, an interactive map displaying the location of the cases, a maximum likelihood phylogenetic tree, notched box-plots displaying the intra-cluster variation per data dimension and interactive correlation plots showing the Spearman Rank correlation coefficient per cluster between the data dimensions. 
