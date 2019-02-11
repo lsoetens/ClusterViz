@@ -60,7 +60,7 @@ cluster_app(data= ClusterData, cluster.list = res$clusters, cluster.pvalue = res
   cluster.height = res$tree.heights, id.col = 1, time.col = 2, x.col = 3, y.col = 4, gen.col = 5:194, cols = cols)
 ```
 
-![plot](https://github.com/lsoetens/ClusterViz/Figs/shiny_app_screenshot.PNG)
+![plot](https://github.com/lsoetens/ClusterViz/blob/master/Figs/shiny_app_screenshot.png)
 
 
 
